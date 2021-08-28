@@ -50,7 +50,7 @@ namespace Universidade
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Instituicao}/{action=Index}/{id?}");
             });
         }
     }

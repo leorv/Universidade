@@ -5,10 +5,9 @@ using System.Threading.Tasks;
 
 namespace Universidade.Models
 {
-    public class Instituicao
+    public class Departamento
     {
-        public int? InstituicaoID { get; set; }
+        public int? DepartamentoID { get; set; }
         public string Nome { get; set; }
-        public string Endereco { get; set; }
     }
 }

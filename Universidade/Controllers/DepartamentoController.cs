@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Universidade.Data;
+using Universidade.Models;
 
 namespace Universidade.Controllers
 {
@@ -20,6 +21,83 @@ namespace Universidade.Controllers
          public async Task<IActionResult> Index()
         {
             return View(await _context.Departamentos.OrderBy(d => d.Nome).ToListAsync());
+        }
+
+        // GET: Create
+        [HttpGet]
+        public IActionResult Create()
+        {
+            return View();
+        }
+        // POST: Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind("Nome")] Departamento departamento)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    _context.Add(departamento);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+            }
+            catch (DbUpdateException)
+            {
+                ModelState.AddModelError("", "Não foi possível inserir os dados.");
+            }
+            return View(departamento);
+        }
+        // GET: Update
+        public async Task<IActionResult> Update(int id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            Departamento departamento = await _context.Departamentos
+                .SingleOrDefaultAsync(m => m.DepartamentoID == id);
+            if (departamento == null)
+            {
+                return NotFound();
+            }
+            return View(departamento);
+        }
+        // POST: Update
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Update(int? id, [Bind("DepartamentoID,Nome")]Departamento departamento)
+        {
+            if (id != departamento.DepartamentoID)
+            {
+                return NotFound();
+            }
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(departamento);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!DepartamentoExists(departamento.DepartamentoID))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(departamento);
+        }
+        private bool DepartamentoExists(int id)
+        {
+            return _context.Departamentos.Any(e => e.DepartamentoID == id);
         }
     }
 }

@@ -15,10 +15,6 @@ namespace Universidade.Data
              * em Departamentos via LINQ.*/
             context.Database.EnsureCreated();
 
-            if (context == null)
-            {
-                throw new ArgumentNullException(nameof(context));
-            }
             if (context.Departamentos.Any())
             {
                 return;

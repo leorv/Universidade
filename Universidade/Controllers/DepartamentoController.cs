@@ -18,7 +18,7 @@ namespace Universidade.Controllers
             _context = context;
         }
 
-         public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index()
         {
             return View(await _context.Departamentos.OrderBy(d => d.Nome).ToListAsync());
         }
@@ -49,13 +49,9 @@ namespace Universidade.Controllers
             }
             return View(departamento);
         }
-        // GET: Update
-        public async Task<IActionResult> Update(int id)
+        // GET: Edit
+        public async Task<IActionResult> Edit(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
             Departamento departamento = await _context.Departamentos
                 .SingleOrDefaultAsync(m => m.DepartamentoID == id);
             if (departamento == null)
@@ -64,10 +60,10 @@ namespace Universidade.Controllers
             }
             return View(departamento);
         }
-        // POST: Update
+        // POST: Edit
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Update(int? id, [Bind("DepartamentoID,Nome")]Departamento departamento)
+        public async Task<IActionResult> Edit(int? id, [Bind("DepartamentoID,Nome")] Departamento departamento)
         {
             if (id != departamento.DepartamentoID)
             {
@@ -95,9 +91,55 @@ namespace Universidade.Controllers
             }
             return View(departamento);
         }
-        private bool DepartamentoExists(int id)
+        private bool DepartamentoExists(int? id)
         {
             return _context.Departamentos.Any(e => e.DepartamentoID == id);
+        }
+        // GET: Details
+        [HttpGet]
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            Departamento departamento = await _context.Departamentos.SingleOrDefaultAsync(m => m.DepartamentoID == id);
+            if (departamento == null)
+            {
+                return NotFound();
+            }
+            return View(departamento);
+        }
+        // GET: Delete
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            Departamento departamento = await _context.Departamentos.SingleOrDefaultAsync(m => m.DepartamentoID == id);
+            if (departamento == null)
+            {
+                return NotFound();
+            }
+
+            return View(departamento);
+        }
+        // POST: Delete
+        [HttpPost]
+        [ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int? id)
+        {
+            Departamento departamento = await _context.Departamentos
+                .SingleOrDefaultAsync(m => m.DepartamentoID == id);
+
+            _context.Departamentos.Remove(departamento);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
         }
     }
 }

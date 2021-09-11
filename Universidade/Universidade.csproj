@@ -16,4 +16,17 @@
     <PackageReference Include="Microsoft.Web.LibraryManager.Build" Version="2.1.113" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\images\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\images\carousel\faculdade-e-universidade-og.jpg" />
+    <None Include="wwwroot\images\carousel\uni-alemanha.jpg" />
+    <None Include="wwwroot\images\carousel\university.jpeg" />
+    <None Include="wwwroot\images\casa-do-codigo_2x.png" />
+    <None Include="wwwroot\images\department.png" />
+    <None Include="wwwroot\images\university.png" />
+  </ItemGroup>
+
 </Project>
